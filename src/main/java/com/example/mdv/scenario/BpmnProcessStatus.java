@@ -1,4 +1,4 @@
-package com.example.mdv.controller;
+package com.example.mdv.scenario;
 
 /**
  * Набор статусов бизнес процесса: 0 - успех, 1 - ошибка
