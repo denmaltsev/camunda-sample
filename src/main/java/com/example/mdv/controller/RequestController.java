@@ -26,6 +26,7 @@ public class RequestController {
     private static final HttpStatus DEFAULT_RESPONSE_HTTP_SUCCESS_STATUS = HttpStatus.OK;
     private static final HttpStatus DEFAULT_RESPONSE_HTTP_ERROR_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
     public static final String DEFAULT_ERROR_RESPONSE_BODY = "{\"status\": {\"errorCode\": 0}}";
+    public final static String BPMN_TASK_ID="SAMPLE_PROCESS_TASK";
 
     Logger log = LoggerFactory.getLogger(this.getClass());
     private final BpmnProcessService processService;
@@ -44,7 +45,7 @@ public class RequestController {
 
         log.info("Received request: {}", request);
 
-        Map<String, Object> bpmnProcessExecutionResultMap = processService.startProcess(BpmnProcessVariables.SCENARIO_ID, UUID.randomUUID().toString(), scenarioParamsMap);
+        Map<String, Object> bpmnProcessExecutionResultMap = processService.startProcess(BPMN_TASK_ID, UUID.randomUUID().toString(), scenarioParamsMap);
 
         String bpmnProcessWrappedResponse = getBpmnExecutionVariableValue(bpmnProcessExecutionResultMap, BpmnProcessVariables.BPMN_PROCESS_RESPONSE);
         String bpmnProcessStatus = getBpmnExecutionVariableValue(bpmnProcessExecutionResultMap, BpmnProcessVariables.BPMN_PROCESS_STATUS);
