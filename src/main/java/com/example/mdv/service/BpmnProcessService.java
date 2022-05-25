@@ -57,5 +57,33 @@ public class BpmnProcessService {
         }
         return null;
     }
+    
 
+    /**
+     * Подготовка параметров для запуска процесса с проверкой на идемпотентность
+     *
+     * @param scenarioId  Идентификатор сценария
+     * @param businessKey бизнес-ключ (уникальный идентификатор) процесса
+     * @param payload     Данные, необходимые для запуска сценария
+     *                    Пример входных данных:
+     *                    Map<String, Object> payload_ = new HashMap<String, Object>() {
+     *                    {
+     *                    put("param1", new Date());
+     *                    put("param2", "test2");
+     *                    <p>
+     *                    }
+     *                    }
+     */
+    private Map<String, Object> prepareStartProcess(@NotNull String scenarioId, @NotNull String businessKey, Map<String, Object> payload) {
+        Map<String, Object> params = new HashMap<String, Object>() {
+            {
+                put(BpmnProcessVariables.SCENARIO_ID, scenarioId);
+            }
+        };
+
+        if (payload != null && !payload.isEmpty()) {
+            params.put(CommonScenarioVariables.INPUT_DATA, payload);
+        }
+        return params;
+    }    
 }
