@@ -1,5 +1,6 @@
 package com.example.mdv.bpmn.actions;
 
+import com.example.mdv.scenario.BpmnErrors;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -10,20 +11,20 @@ public abstract class AbstractDelegate implements JavaDelegate {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public void execute(DelegateExecution delegateExecution) {
+    public void execute(DelegateExecution execution) {
         try {
             log.trace("Delegate {} was called for process {}",
                     getClass().getSimpleName(),
-                    delegateExecution.getProcessInstanceId());
-            run(delegateExecution);
+                    execution.getProcessInstanceId());
+            run(execution);
         } catch (Exception exception) {
             log.error("Error occurred", exception);
-            executeHandling(delegateExecution, exception);
+            executeHandling(execution, exception);
         }
     }
 
-    public void executeHandling(DelegateExecution delegateExecution, Exception exception) {
-        throw new BpmnError("PROCESS_ERROR", exception);
+    public void executeHandling(DelegateExecution execution, Exception exception) {
+        throw new BpmnError(BpmnErrors.INTERNAL_ERROR.name(), exception);
     }
 
     public abstract void run(DelegateExecution delegateExecution);

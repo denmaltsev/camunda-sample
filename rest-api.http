@@ -1,0 +1,13 @@
+POST http://localhost:8080/api/v0/run
+Content-Type: application/json
+
+{
+  "name": "sample"
+}
+
+<> 2022-06-08T222138.500.json
+<> 2022-06-08T221841.500.json
+<> 2022-06-08T221639.500.json
+<> 2022-06-08T221541.415.json
+
+###

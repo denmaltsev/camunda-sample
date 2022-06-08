@@ -1,5 +1,6 @@
 package com.example.mdv.service;
 
+import com.example.mdv.scenario.BpmnProcessVariables;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.camunda.bpm.engine.RuntimeService;
@@ -27,7 +28,8 @@ public class BpmnProcessService {
 
     public Map<String, Object> startProcess(@NotNull String scenarioId, @NotNull String businessKey, Map<String, Object> payload) {
         Map<String, Object> params = prepareStartProcess(scenarioId, businessKey, payload);
-        ProcessInstanceWithVariables processInstance = runtimeService.createProcessInstanceByKey(scenarioId)
+        ProcessInstanceWithVariables processInstance = runtimeService
+                .createProcessInstanceByKey(scenarioId)
                 .businessKey(businessKey)
                 .setVariables(params)
                 .executeWithVariablesInReturn();
@@ -82,7 +84,7 @@ public class BpmnProcessService {
         };
 
         if (payload != null && !payload.isEmpty()) {
-            params.put(CommonScenarioVariables.INPUT_DATA, payload);
+            params.put(BpmnProcessVariables.INPUT_DATA, payload);
         }
         return params;
     }    

@@ -83,17 +83,27 @@ public class RequestController {
         return (status != null) ? status : DEFAULT_RESPONSE_HTTP_ERROR_STATUS;
     }
 
+    @SuppressWarnings("unchecked")
     private String getBpmnExecutionVariableValue(Map<String, Object> bpmnProcessExecutionResultMap, String variableName) {
-        String bpmnExecutionVariableValue = null;
+//        String bpmnExecutionVariableValue = null;
         final List<Map<String, Object>> resultVariables = Collections.unmodifiableList((List<Map<String, Object>>) bpmnProcessExecutionResultMap.get("variables"));
-        final Optional<Map<String, Object>> resultVarMap =
-                resultVariables.stream()
-                        .filter(varMap -> varMap.get("name").equals(variableName))
-                        .findFirst();
-        if (resultVarMap.isPresent()) {
-            bpmnExecutionVariableValue = resultVarMap.get().get("value").toString();
-        }
-        return bpmnExecutionVariableValue;
+
+        return  resultVariables.stream()
+                .filter(varMap -> varMap.get("name").equals(variableName))
+                .findFirst()
+                .map(mapOpt -> String.valueOf(mapOpt.get("value")))
+                .orElse(null);
+//
+//
+//
+//        final Optional<Map<String, Object>> resultVarMap =
+//                resultVariables.stream()
+//                        .filter(varMap -> varMap.get("name").equals(variableName))
+//                        .findFirst();
+//        if (resultVarMap.isPresent()) {
+//            bpmnExecutionVariableValue = resultVarMap.get().get("value").toString();
+//        }
+//        return bpmnExecutionVariableValue;
     }
 
     private String getMessageFromBpmnWrapper(String wrappedMessage) {
